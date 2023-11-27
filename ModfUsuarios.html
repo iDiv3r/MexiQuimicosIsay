@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar Usuarios</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Overpass&display=swap" rel="stylesheet"></head>
+  <link rel="stylesheet" href="css/login.css"> 
+<body>
+  <div id="contenedor">
+    <h1 class="titulo">MEXQUIMICOS</h1>
+    <div id="central">
+        <div id="login">
+          <i class="fa fa-envelope" aria-hidden="true"></i><h2 class="Subtitulo">Modificar Usuarios</h2>
+            <form action="Php/controller.php" method="POST">
+                <input type="text" name="txtCorreo" placeholder="Usuario" >
+                <input type="password" placeholder="Contraseña" name="txtPass" >
+                <input type="password" placeholder="Repetir Contraseña" name="txtCpass" >
+                <button type="submit" title="Ingresar" name="btnModificarUser">Registrara</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

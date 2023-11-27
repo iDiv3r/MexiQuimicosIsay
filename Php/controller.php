@@ -8,10 +8,6 @@
         <title> Formulario de Acceso </title>    
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Videojuegos & Desarrollo">
-        <meta name="description" content="Muestra de un formulario de acceso en HTML y CSS">
-        <meta name="keywords" content="Formulario Acceso, Formulario de LogIn">
-        
         <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Overpass&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/login.css">
@@ -42,7 +38,7 @@
             echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=index.html'>";
         }
     }
-    if(isset($_POST["btnGuardarU"])) {
+    if(isset($_POST["btnGuardarUser"])) {
         $correo = $_POST['txtCorreo'];
         $pass = $_POST['txtPass'];
         $passC = $_POST['txtCpass'];
@@ -55,11 +51,28 @@
             $status = guardarUsuarios($correo,$pass,$perfil);
             if ($status == 1) {
                 echo "<script> alert('Usuarios Guardado')</script>";
-                echo "<META HTTP-EQUIV='REFRESH' CONTENT='1; URL=FormUsuario.html'>";
+                echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=FormUsuario.html'>";
             }else{
                 echo "<script> alert('Usuario no guardado')</script>";
-                echo "<META HTTP-EQUIV='REFRESH' CONTENT='2; URL=FormUsuario.html'>";
+                echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=FormUsuario.html'>";
             }}}
+
+            
+            if (isset($_POST["btnModificarUser"])) {
+                $correo = $_POST['txtCorreo'];
+                $pass = $_POST['txtPass'];
+                $passC = $_POST['txtCpass'];
+                $perfil = $_POST['selPerfil'];
+            
+                $status = ModificarUsers($pass, $perfil, $correo);
+            
+                if ($status == 1) {
+                    echo "<script> alert('Se guardaron los cambios')</script>"; 
+                    echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=ModUsuarios.html'>";
+                } else {
+                    echo "<script> alert('NO pudo guardar los cambios')</script>";
+                    echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=ModUsuarios.html'>";
+                }}  
     ?>    
     </body>
 </html>

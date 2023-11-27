@@ -3,7 +3,6 @@ body {
     font-weight: normal;
     font-size: 100%;
     color: #9bcee9;
-    
     margin: 0;
     background-color: #0f4c75;
 }
@@ -146,4 +145,13 @@ body {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
+    color: black;
+}
+
+.Subtitulo{
+    position: absolute;
+    top: 170px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
 }
