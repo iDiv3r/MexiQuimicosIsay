@@ -2,12 +2,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #87CEEB; /* Cambiado a un color azul claro */
+  background-color: #87CEEB; 
 }
 
 h1 {
   text-align: center;
-  padding: 10px; /* Reducido el padding para centrar más */
+  padding: 10px; 
   background-color: #333;
   color: #fff;
   margin: 0;
@@ -25,14 +25,14 @@ h1 {
 .Btn2 {
   text-align: center;
   margin: 10px;
-  width: 200px; /* Ajustado el ancho para formar un cuadro */
+  width: 200px; 
 }
 
 .Btn3,
 .Btn4 {
   text-align: center;
   margin: 10px;
-  width: 200px; /* Ajustado el ancho para formar un cuadro */
+  width: 200px; 
 }
 
 button {
