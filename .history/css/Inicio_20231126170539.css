@@ -1,0 +1,40 @@
+.Btn1{
+  position: absolute;
+width: 83px;
+height: 60px;
+left: 202px;
+right: 83px;
+top: 157px;
+bottom: 84px;
+}
+
+.Btn2{
+position: absolute;
+width: 83px;
+height: 60px;
+left: 73px;
+right: 212px;
+top: 157px;
+bottom: 84px;
+}
+
+.Btn2{
+  /* Rectangle 6 */
+position: absolute;
+width: 83px;
+height: 60px;
+left: 73px;
+right: 212px;
+top: 241px;
+bottom: 0;
+}
+
+.Btn3{
+  position: absolute;
+width: 83px;
+height: 60px;
+left: 202px;
+right: 83px;
+top: 157px;
+bottom: 84px;
+}
