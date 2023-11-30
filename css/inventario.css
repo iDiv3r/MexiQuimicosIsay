@@ -1,0 +1,36 @@
+.UwU{
+    font-family: 'Overpass', sans-serif;
+    font-weight: normal;
+    font-size: 100%;
+    color: #9bcee9;
+    margin: 0;
+    background-color: #0f4c75;
+}
+.titulo{
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+table {
+    background-color: gray;
+    text-align: center;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+td{
+    border: 1px solid black;
+}
+th{
+    border: 1px solid black;
+}
+.modal-lg {
+    max-width: 800px;
+}
