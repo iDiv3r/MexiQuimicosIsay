@@ -8,11 +8,68 @@
     <title>Inventario</title>
 </head>
 <body class="UwU">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Crear">
-        Agregar Producto:
-    </button>
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">MexiQuímicos</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Menú principal</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Productos Químicos
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Consultar Productos</a></li>
+                                    <li><a class="dropdown-item" href="#">Agregar Productos</a></li>
+                                    <li><a class="dropdown-item" href="#">Modificar Productos</a></li>
+                                    <li><a class="dropdown-item" href="#">Eliminar Productos</a></li>
+                                </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Materiales
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Consultar Materiales</a></li>
+                                    <li><a class="dropdown-item" href="#">Agregar Materiales</a></li>
+                                    <li><a class="dropdown-item" href="#">Modificar Materiales</a></li>
+                                    <li><a class="dropdown-item" href="#">Eliminar Materiales</a></li>
+                                </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Ventas
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Guardar y consultar</a></li>
+                                        <li><a class="dropdown-item" href="#">Crear reporte de ventas</a></li>
+                                        <li><a class="dropdown-item" href="#">Crear ticket de venta</a></li>
+                                    </ul>
+                                    </li>
+
+                            </ul>
+                                <button class="bg-body-tertiary border-0 ">
+                                    <i class="fa-solid fa-user fa-xl"></i>
+                                </button>
+                    </div></div>
+            </nav> 
+    
+    </div>
+
+    
     <!--Titulo-->
 <h1 class="titulo"> Inventario Quimicos </h1>
+
+    <button class="btn btn-primary owo" data-bs-toggle="modal" data-bs-target="#Crear">
+        Agregar Producto:
+    </button>
+
     <!--contenedor de la tabla-->
     <div class="container">
         <table class="table">
@@ -51,7 +108,9 @@
             </tr>
         </tbody>
         </table>
+
         <!-- Modals de quimicos -->
+
         <!-- Editar productos -->
         <div class="modal fade" id="Editar" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document" >
@@ -109,6 +168,7 @@
             </div>
         </div>
         </div>
+        <!-- Final del modal Editar Producto-->
 
         <!-- Borrar producto -->
         <div class="modal fade" id="Borrar"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -133,11 +193,10 @@
 
     </div>
     </div>
-</div>
+    </div>
+    <!-- Final del modal Eliminar Producto-->
 
-
-        <!--Modals-->
-    <!--Primero en modal es donde vamos a darle una id para llamarla despues-->
+    <!-- Modal Crear Producto -->
     <div class="modal" id="Crear" >
         <div class="modal-dialog modal-dialog-centered modal-lg" >
             <div class="modal-content">
@@ -192,6 +251,7 @@
         </div>
     </div>
     </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Final del modal Crear Producto-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

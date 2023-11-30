@@ -6,6 +6,11 @@
     margin: 0;
     background-color: #0f4c75;
 }
+.owo{
+    position:absolute;
+    top:40%;
+    left:5%;
+}
 .titulo{
     position: absolute;
     top: 100px;
