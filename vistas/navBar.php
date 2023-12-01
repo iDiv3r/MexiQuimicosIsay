@@ -6,37 +6,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/crearReporteGeneral.css">
 
-    <title>Crear Reporte General</title>
+    <title>Bienvenido a MexiQuímicos</title>
 </head>
     
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">MexiQuímicos</a>
+        <a class="navbar-brand" href="../vistas/menuPrincipal.php">MexiQuímicos</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Menú principal</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos Químicos</a>
+                    <a class="nav-link" href="../vistas/inventarioQuimicos.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos Químicos</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Materiales</a>
+                    <a class="nav-link" href="../vistas/inventarioMateriales.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">Materiales</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Ventas
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Guardar y consultar</a></li>
-                        <li><a class="dropdown-item" href="#">Crear reporte de ventas</a></li>
-                        <li><a class="dropdown-item" href="#">Crear ticket de venta</a></li>
+                        <li><a class="dropdown-item" href="../vistas/inventarioVentas.php">Guardar y consultar</a></li>
+                        <li><a class="dropdown-item" href="../vistas/crearReporteVentas.php">Crear reporte de ventas</a></li>
+                        <li><a class="dropdown-item" href="../vistas/crearTicket.php">Crear ticket de venta</a></li>
                     </ul>
                     </li>
                 
@@ -46,29 +42,6 @@
                 </button>
     </div></div>
     </nav>
-
-    <h1 class="titulo1">CREAR REPORTE DE PRODUCTOS Y MATERIALES</h1>
-
-
-    <div class="contenedorPDF"></div>
-
-    <div>
-        <div class="card text-center botonR1 border-info ml-5">
-            <div class="card-body">
-                <a class="btn btn-primary">Crear Reporte</a>
-            </div>
-        </div> 
-    
-        <img src="img/reporte.png" class="reporte">
-    
-        <div class="card text-center botonR2 border-dangerml-5 mt-5">
-            <div class="card-body">
-                <a class="btn btn-danger">Descargar Reporte</a>
-            </div>
-        </div> 
-    </div>
-    
-    <p></p>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

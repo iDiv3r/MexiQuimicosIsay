@@ -2,7 +2,7 @@
 function conexiónDB(){
   // Variables de Conexión 
   $servidor = "localhost";
-  $db = "dbmancoanonimo";
+  $db = "dbmexiquimicos";
   $servidorPass = "";
   $Usuario = "root";
 
@@ -12,52 +12,57 @@ function conexiónDB(){
 }
 
 function validarUser($correoV, $passV){
+
   // Conexion y Consulta
   $conex = conexiónDB();
   $consulta = "SELECT pass FROM tbusuarios WHERE correo = '$correoV' ";
 
   // Ejecutamos y guardamos la consulta
   $rset = mysqli_query($conex, $consulta);
-
-  // Verificamos si se obtuvieron resultados
-  if (!$rset) {
-    die("Error en la consulta: " . mysqli_error($conex));
-  }
+  mysqli_close($conex);
+  
 
   // Extraer pass si hay resultados
-  $passBD = null;
   while ($fila = mysqli_fetch_array($rset)) {
     $passBD = $fila['pass'];
   }
 
   // Comparar la contraseña con la DB
-  if ($passBD !== null && $passV == $passBD) {
+  if ($passV == $passBD){
+    
     $status = 1; // Tiene acceso
+
   } else {
+
     $status = 0; // No tiene acceso
+
   }
 
-  mysqli_close($conex);
   return $status;
+
 }
 
-function guardarUsuarios($correoF,$passF,$perfilF){
+function guardarUsuarios($correoF,$passF){
   $conex = conexiónDB();
-  $Insert = "insert into tbusuarios(correo,pass,perfil) values(?,?,?)";
+  $insert = "insert into tbusuarios(correo,pass) values(?,?)";
 
   try{
-    $stm = $conex -> prepare($Insert);
-    $stm -> bind_param('sss', $correoF, $passF, $perfilF);
+    $stm = $conex -> prepare($insert);
+    $stm -> bind_param('ss', $correoF, $passF);
     $stm -> execute();
     $stm -> close();
     mysqli_close($conex);
     $status = 1;
   }catch(Exception $e){
-    $status = 0;
     echo 'Exception capturada',$e->getMessage();
+    $status = 0;
+    var_dump($e);
+  }
+
+  return $status;
+
 }
-return $status;
-}
+
 
 function ModificarUsers($correoF, $passF = null, $perfilF = null) {
   /**
