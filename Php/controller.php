@@ -3,6 +3,7 @@
 
 require "funcionesbd.php";
 
+//Verificar credenciales de inicio de sesion
 if (isset($_POST['btnIng'])) {
     $correo = $_POST['txtCorreo'];
     $pass = $_POST['txtPass'];
@@ -43,6 +44,7 @@ if(isset($_POST["btnGuardarUser"])) {
     }
 }     
 
+// Modificar usuario de la base de datos
 if (isset($_POST["btnModificarUser"])) {
     $correo = $_POST['txtCorreo'];
     $pass = $_POST['txtPass'];
@@ -61,7 +63,32 @@ if (isset($_POST["btnModificarUser"])) {
 
 
 
-?>    
+// Guardar quimico nuevo en base de datos
+if(isset($_POST["btnGuardarQuimico"])) {
+
+    $nombre = $_POST['txtNombreAdd'];    
+    $fecha = $_POST['txtFechaAdd'];
+    $precio = $_POST['txtPrecioAdd'];
+    $costoMay = $_POST['txtCostoMayoreoAdd'];    
+    $costoMen = $_POST['txtCostoMenudeoAdd'];
+    $cantidad = $_POST['txtCantidadAdd'];
+    
+    $status = guardarQuimico($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad);
+
+    if ($status == 1) {
+
+        echo "<script> alert('Producto químico guardado correctamente')</script>";
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/inventarioQuimicos.php'>";
+    }
+    else{
+
+        echo "<script> alert('Error al guardar producto')</script>";
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/inventarioQuimicos.php'>";
+
+    }
+    
+} 
+
 
 
 

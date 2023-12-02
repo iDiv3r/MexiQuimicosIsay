@@ -52,7 +52,7 @@
                 <input type="text" name="txtCorreo" placeholder="Usuario" required>
                 <input type="password" placeholder="Contraseña" name="txtPass" required>
                 <input type="password" placeholder="Repetir Contraseña" name="txtCpass" required>
-                <button type="submit" title="Ingresar" name="btnGuardarUser">Registrara</button>
+                <button type="submit" title="Ingresar" name="btnGuardarUser">Registrar</button>
             </form>
         </div>
     </div>

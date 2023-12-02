@@ -42,6 +42,7 @@ function validarUser($correoV, $passV){
 
 }
 
+// Función para guardar usuarios en la base de datos
 function guardarUsuarios($correoF,$passF){
   $conex = conexiónDB();
   $insert = "insert into tbusuarios(correo,pass) values(?,?)";
@@ -105,4 +106,51 @@ function ModificarUsers($correoF, $passF = null, $perfilF = null) {
       echo 'Exception capturada', $e->getMessage();
   }
   return $status;
+}
+
+ 
+
+// Consultar productos químicos 
+function consultarQuimicos(){
+  $conex = conexiónDB();
+  $consulta = "select * from tbquimicos";
+
+  try{
+    $rsConsulta = mysqli_query($conex, $consulta);
+    mysqli_close($conex);
+
+    return $rsConsulta;
+
+  } catch(Exception $e){
+
+    die('Excepcion capturada: ' . $e->getMessage());
+
+  }
+}
+
+// Función para guardar quimicos en la base de datos
+function guardarQuimico($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad){
+
+  $conex = conexiónDB();
+  $insert = "insert into tbquimicos(nombre, fecha, precio, costomay, costomen, cantidad) values(?,?,?,?,?,?)";
+
+  try{
+
+    $stm = $conex -> prepare($insert);
+    $stm -> bind_param('ssdddi', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad);
+    $stm -> execute();
+    $stm -> close();
+    mysqli_close($conex);
+    $status = 1;
+
+  }catch(Exception $e){
+
+    echo 'Exception capturada',$e->getMessage();
+    $status = 0;
+    var_dump($e);
+
+  }
+
+  return $status;
+
 }

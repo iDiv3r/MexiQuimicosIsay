@@ -44,12 +44,14 @@
     <!--Titulo-->
     <h1 class="titulo"> Inventario Productos Químicos </h1>
 
-    <button class="btn btn-primary owo" data-bs-toggle="modal" data-bs-target="#Crear">
-        Agregar Producto:
-    </button>
 
     <!--contenedor de la tabla-->
-    <div class="container">
+    <div style="position: absolute; left:15vw; top:15vw;">
+        
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#Crear">
+            Agregar Producto:
+        </button>
+
         <table class="table">
             <thead>
                 <tr>
@@ -64,225 +66,110 @@
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                    <th> 12345 </th>
-                    <td> Nitroglicerina </td>
-                    <td>29/11/23</td>
-                    <td>150</td>
-                    <td>1500</td>
-                    <td>1600</td>
-                    <td>10</td>
-                    <td>
-                    <div class='dropdown'>
-                            <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
-                                Opciones
-                            </a>
-                            <ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-                            <li><a class='dropdown-item' href='#' data-bs-toggle="modal" data-bs-target="#Editar">Editar</a></li>
-                            <li><a class='dropdown-item' href='#' data-bs-toggle="modal" data-bs-target="#ewe">Vender</a></li>
-                            <li><a class='dropdown-item' href='#' data-bs-toggle="modal" data-bs-target="#Borrar" style="color:red">Eliminar</a></li>
-                            </ul>
-                        </div>
-                    </td>
-            </tr>
-        </tbody>
-        </table>
+            <?php
+                require '../php/funcionesbd.php';
+                $consultaQuimicos = consultarQuimicos();
 
-        <!-- Modals de químicos -->
-
-        <!-- Editar productos -->
-        <div class="modal fade" id="Editar" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl" role="dialog" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style="border:0;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                <div class="modal-body">
-                <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">Nombre del producto</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Precio de compra</th>
-                        <th scope="col">Costo de venta mayoreo</th>
-                        <th scope="col">Costo de venta menudeo</th>
-                        <th scope="col">Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                while($arregloQuimicos = mysqli_fetch_array($consultaQuimicos)){
+                    
+                    echo ("
                     <tr>
-                    <td>
-                        <input type="text" class="form-control" name="nombre" id="nombre" value="Nitroglicerina">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="fecha" id="fecha" value="2023-11-29">
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" name="precio_compra" id="precio_compra" value="150">
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" name="precio_venta_mayoreo" id="precio_venta_mayoreo" value="1500">
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" name="precio_venta_menudeo" id="precio_venta_menudeo" value="1600">
-                    </td>
-                    <td>
-                        <input type="number" class="form-control" name="cantidad" id="cantidad" value="10">
-                    </td>
+                        <th> " . $arregloQuimicos['id'] . " </th>
+                        <td> " . $arregloQuimicos['nombre'] . " </td>
+                        <td> " . $arregloQuimicos['fecha'] . " </td>
+                        <td> " . $arregloQuimicos['precio'] . " </td>
+                        <td> " . $arregloQuimicos['costomay'] . " </td>
+                        <td> " . $arregloQuimicos['costomen'] . " </td>
+                        <td> " . $arregloQuimicos['cantidad'] . " </td>
+                        <td>
+                            <div class='dropdown'>
+                                <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
+                                    Opciones
+                                </a>
+                                <ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+                                <li><a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#Editar". $arregloQuimicos['id']  . "'>Editar</a></li>
+                                <li><a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#Vender". $arregloQuimicos['id']  . "'>Vender</a></li>
+                                <li><a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#Borrar". $arregloQuimicos['id']  . "' style='color:red'>Eliminar</a></li>
+                                </ul>
+                            </div>
+                        </td>
                     </tr>
-                    </tbody>
-            </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
-            </div>
-            </div>
-        </div>
-        </div>
-        <!-- Final del modal Editar Producto-->
 
-        <!-- Modals de vender -->
-        <div class="modal" id="ewe">
-            <div class="modal-dialog modal-dialog-centered modal-lg" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"> Venta de producto</h5>
-                        <button class="btn-close " data-bs-dismiss="modal" aria-label="Close" style="border:0;"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" placeholder="Cliente" class="input-group border-info mb-2 rounded-2">
+                    ");
+                };
+            ?>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Agregar Producto -->
+    <div class="modal" id="Crear">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar producto</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Inicio del formulario -->
+                    <form action="../php/controller.php" method="POST">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Nombre del producto:</th>
-                                        <th scope="col">Costo de venta mayoreo:</th>
-                                        <th scope="col">Costo de venta menudeo: </th>
-                                        <th scope="col">Cantidad: </th>
+                                        <th scope="col">Nombre del producto</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Precio de compra</th>
+                                        <th scope="col">Costo de venta mayoreo</th>
+                                        <th scope="col">Costo de venta menudeo</th>
+                                        <th scope="col">Cantidad</th>
                                     </tr>
                                 </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Nitroglicerina
-                                    </td>
-                                    <td>
-                                        1500
-                                    </td>
-                                    <td>
-                                        1600
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" name="cantidad" id="cantidad" value="">
-                                    </td>
-                                </tr>
-                            </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" name="txtFechaAdd" id="fechaAg" value="">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="txtPrecioAdd" id="precioAg" value="">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="txtCostoMayoreoAdd" id="costoMayAg" value="">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="txtCostoMenudeoAdd" id="costoMenAg" value="">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="txtCantidadAdd" id="cantidadAg" value="">
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <div class='dropdown'>
-                                <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
-                                    Tipo de Venta
-                                </a>
-                                <ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-                                <li><a class='dropdown-item' href='#'>Mayoreo</a></li>
-                                <li><a class='dropdown-item' href='#'>Menudeo</a></li>
-                            </div>
-                                <button class="btn btn-success">Vender</button>
-                                <button class="btn btn-danger">Cancelar</button>
+                            <button class="btn btn-success" type="submit" name="btnGuardarQuimico">Guardar</button>
+                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Borrar producto -->
-        <div class="modal fade" id="Borrar"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-4 fw-semibold fw-bold" id="staticBackdropLabel">Borrar Producto </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-            <div class="modal-body">
-
-            <form method="POST" action="#">
-                <!-- Aquí iría el token CSRF y el método DELETE cuando conectes con la base de datos -->
-                <div class="text-danger fs-4 fw-semibold">
-                ¿Seguro que borrarás el producto?
-                </div>           
-        </div>
-        <div class="modal-footer">
-                <button type="submit" class="btn btn-danger"> <i class="bi bi-trash"></i> Si</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
-
-    </div>
-    </div>
-    </div>
-    <!-- Final del modal Eliminar Producto-->
-
-    <!-- Modal Agregar Producto -->
-    <div class="modal" id="Crear" >
-        <div class="modal-dialog modal-dialog-centered modal-lg" >
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar producto</h5>
-                    <button class="btn-close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nombre del producto</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Precio de compra</th>
-                                    <th scope="col">Costo de venta mayoreo</th>
-                                    <th scope="col">Costo de venta menudeo</th>
-                                    <th scope="col">Cantidad</th>
-                                </tr>
-                            </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="text" class="form-control" name="nombre" id="nombre" value="">
-                                </td>
-                                <td>
-                                    <input type="date" class="form-control" name="fecha" id="fecha" value="">
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" name="precio_compra" id="precio_compra" value="">
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" name="precio_venta_mayoreo" id="precio_venta_mayoreo" value="">
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" name="precio_venta_menudeo" id="precio_venta_menudeo" value="">
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control" name="cantidad" id="cantidad" value="">
-                                </td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                            <button class="btn btn-success">Guardar</button>
-                            <button class="btn btn-danger">Cancelar</button>
-                    </div>
+                    </form> <!-- Fin del formulario -->
                 </div>
             </div>
         </div>
     </div>
 
-    
+    <!-- segunda consultaQuimicos__________________________ -->
+    <?php
+    $consultaQuimicos2 = consultarQuimicos();
+    while($arregloQuimicos2 = mysqli_fetch_array($consultaQuimicos2)){
+
+        require 'opcionesQuimicos.php';
+
+    };
+    ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
