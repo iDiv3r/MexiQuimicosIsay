@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/inventario.css"> 
+    <script src="https://kit.fontawesome.com/932290cf31.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Inventario Productos</title>
 </head>
@@ -72,6 +73,12 @@
 
                 while($arregloQuimicos = mysqli_fetch_array($consultaQuimicos)){
                     
+                    if(($arregloQuimicos['cantidad']) <= 3){
+                        $color = 'style="color:red"';
+                    } else{
+                        $color = "";
+                    }
+
                     echo ("
                     <tr>
                         <th> " . $arregloQuimicos['id'] . " </th>
@@ -80,7 +87,7 @@
                         <td> " . $arregloQuimicos['precio'] . " </td>
                         <td> " . $arregloQuimicos['costomay'] . " </td>
                         <td> " . $arregloQuimicos['costomen'] . " </td>
-                        <td> " . $arregloQuimicos['cantidad'] . " </td>
+                        <td " . $color . "> " . $arregloQuimicos['cantidad'] . " </td>
                         <td>
                             <div class='dropdown'>
                                 <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -104,7 +111,7 @@
     </div>
 
     <!-- Modal Agregar Producto -->
-    <div class="modal" id="Crear">
+    <div class="modal fade" id="Crear">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -112,7 +119,6 @@
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Inicio del formulario -->
                     <form action="../php/controller.php" method="POST">
                         <div class="table-responsive">
                             <table class="table">
@@ -151,23 +157,23 @@
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-success" type="submit" name="btnGuardarQuimico">Guardar</button>
                             <button class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-success" type="submit" name="btnGuardarQuimico">Guardar</button>
                         </div>
-                    </form> <!-- Fin del formulario -->
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- segunda consultaQuimicos__________________________ -->
+    <!-- segunda consultaQuimicos  -->
     <?php
-    $consultaQuimicos2 = consultarQuimicos();
-    while($arregloQuimicos2 = mysqli_fetch_array($consultaQuimicos2)){
+        $consultaQuimicos2 = consultarQuimicos();
+        while($arregloQuimicos2 = mysqli_fetch_array($consultaQuimicos2)){
 
-        require 'opcionesQuimicos.php';
+            require 'opcionesQuimicos.php';
 
-    };
+        };
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

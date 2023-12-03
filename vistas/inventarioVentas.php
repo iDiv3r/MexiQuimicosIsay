@@ -44,43 +44,50 @@
     <!--Titulo-->
     <h1 class="titulo"> Consultar Ventas </h1>
 
-    <button class="btn btn-primary owo" data-bs-toggle="modal" data-bs-target="#Crear">
-        Crear reporte de Ventas:
-    </button>
-
     <!--contenedor de la tabla-->
-    <div class="container">
-        <table class="table">
+    <div style="position: absolute; left:15vw; top:15vw;">
+        <a class="btn btn-primary mb-3" href="crearReporteVentas.php">Crear reporte de Ventas</a>
+        <table class="table" >
             <thead>
                 <tr>
-                    <th scope="col">ID:</th>
+                    <th scope="col"><?php echo "ID"?></th>
                     <th scope="col">Cliente</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Tipo de Venta</th>
-                    <th scope="col">Productos</th>
+                    <th scope="col">Producto</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
                     <th scope="col"> </th>
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                    <th> 1</th>
-                    <td> Kevin</td>
-                    <td>29/11/23</td>
-                    <td>Mayoreo</td>
-                    <td>NaCl</td>
-                    <td>2</td>
-                    <td>1200</td>
-                    <td>
-                    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Crear">
-                        Crear Ticket
-                    </button>
-                    </td>
-            </tr>
-        </tbody>
-        </table>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
-</html>
+                <?php
+                    require '../php/funcionesbd.php';
+                    $consultaVentas = consultarVentas();
+
+                    while($arregloVentas= mysqli_fetch_array($consultaVentas)){
+
+                        echo ("
+                        <tr>
+                            <th> " . $arregloVentas['id'] . " </th>
+                            <td> " . $arregloVentas['cliente'] . " </td>
+                            <td> " . $arregloVentas['fecha'] . " </td>
+                            <td> " . $arregloVentas['tipo'] . " </td>
+                            <td> " . $arregloVentas['producto'] . " </td>
+                            <td> " . $arregloVentas['cantidad'] . " </td>
+                            <td> " . $arregloVentas['total'] . " </td>
+                            <td>
+                                <button class='btn btn-dark'>Crear Ticket</button>
+                            </td>
+                        </tr>
+
+                        ");
+                    };
+                ?>
+                
+            </tbody>
+                </table>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+            </body>
+            </html>

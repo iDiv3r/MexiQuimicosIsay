@@ -108,7 +108,7 @@ function ModificarUsers($correoF, $passF = null, $perfilF = null) {
   return $status;
 }
 
- 
+// CRUD Quimicos ------------------------------------------------------------------------------------------------------------------------------
 
 // Consultar productos químicos 
 function consultarQuimicos(){
@@ -138,6 +138,257 @@ function guardarQuimico($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad)
 
     $stm = $conex -> prepare($insert);
     $stm -> bind_param('ssdddi', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad);
+    $stm -> execute();
+    $stm -> close();
+    mysqli_close($conex);
+    $status = 1;
+
+  }catch(Exception $e){
+
+    echo 'Exception capturada',$e->getMessage();
+    $status = 0;
+    var_dump($e);
+
+  }
+
+  return $status;
+
+}
+
+// Función para eliminar Químico de la base de datos
+function eliminarQuimico($idQuimico) {
+
+  $conex = conexiónDB(); 
+  $consulta = "DELETE FROM tbquimicos WHERE id = ?";
+
+  try {
+  
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('i', $idQuimico); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status; 
+
+  } catch (Exception $e) {
+
+    echo 'Error al eliminar el producto: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+}
+
+//Función para modificar Quimico de la base de datos
+function actualizarQuimico($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idQuimicoUp){
+
+  $conex = conexiónDB(); 
+  $consulta = "UPDATE tbquimicos SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ? WHERE id = ?";
+
+  try {
+  
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('ssdddii', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idQuimicoUp); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status; 
+
+  } catch (Exception $e) {
+
+    echo 'Error al modificar el producto: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+}
+
+// Función para realizar ventas de químicos 
+function venderQuimico($restante, $idQuimicoV){
+  $conex = conexiónDB(); 
+  $consulta = "UPDATE tbquimicos SET cantidad = ? WHERE id = ?";
+
+  try{
+
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('ii', $restante, $idQuimicoV); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status;
+
+  } catch(Exception $e) {
+
+    echo 'Error al realizar la venta: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+
+}
+
+
+// CRUD Materiales ------------------------------------------------------------------------------------------------------------------------------
+
+// Consultar productos materiales 
+function consultarMateriales(){
+  $conex = conexiónDB();
+  $consulta = "SELECT * from tbmateriales";
+
+  try{
+    $rsConsulta = mysqli_query($conex, $consulta);
+    mysqli_close($conex);
+
+    return $rsConsulta;
+
+  } catch(Exception $e){
+
+    die('Excepcion capturada: ' . $e->getMessage());
+
+  }
+}
+
+// Función para guardar materiales en la base de datos
+function guardarMaterial($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad){
+
+  $conex = conexiónDB();
+  $insert = "INSERT into tbmateriales(nombre, fecha, precio, costomay, costomen, cantidad) values(?,?,?,?,?,?)";
+
+  try{
+
+    $stm = $conex -> prepare($insert);
+    $stm -> bind_param('ssdddi', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad);
+    $stm -> execute();
+    $stm -> close();
+    mysqli_close($conex);
+    $status = 1;
+
+  }catch(Exception $e){
+
+    echo 'Exception capturada',$e->getMessage();
+    $status = 0;
+    var_dump($e);
+
+  }
+
+  return $status;
+
+}
+
+// Función para eliminar Químico de la base de datos
+function eliminarMaterial($idMaterial) {
+
+  $conex = conexiónDB(); 
+  $consulta = "DELETE FROM tbmateriales WHERE id = ?";
+
+  try {
+  
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('i', $idMaterial); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status; 
+
+  } catch (Exception $e) {
+
+    echo 'Error al eliminar el material: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+}
+
+//Función para modificar material de la base de datos
+function actualizarMaterial($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idMaterialUp){
+
+  $conex = conexiónDB(); 
+  $consulta = "UPDATE tbmateriales SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ? WHERE id = ?";
+
+  try {
+  
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('ssdddii', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idMaterialUp); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status; 
+
+  } catch (Exception $e) {
+
+    echo 'Error al modificar el producto: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+}
+
+// Función para realizar ventas de materiales 
+function venderMaterial($restante, $idMaterialV){
+  $conex = conexiónDB(); 
+  $consulta = "UPDATE tbmateriales SET cantidad = ? WHERE id = ?";
+
+  try{
+
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('ii', $restante, $idMaterialV); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status;
+
+  } catch(Exception $e) {
+
+    echo 'Error al realizar la venta: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
+  }
+
+}
+
+// CRUD Ventas ------------------------------------------------------------------------------------------------------------------------------
+
+function consultarVentas(){
+
+  $conex = conexiónDB();
+  $consulta = "SELECT * from tbventas";
+
+  try{
+    $rsConsulta = mysqli_query($conex, $consulta);
+    mysqli_close($conex);
+
+    return $rsConsulta;
+
+  } catch(Exception $e){
+
+    die('Excepcion capturada: ' . $e->getMessage());
+
+  }
+
+}
+
+function guardarVenta($clienteV,$fechaV,$tipoV, $productoV,$cantidadV,$totalV){
+
+  $conex = conexiónDB();
+  $insert = "INSERT into tbventas(cliente, fecha, tipo, producto, cantidad, total) values(?,?,?,?,?,?)";
+
+  try{
+
+    $stm = $conex -> prepare($insert);
+    $stm -> bind_param('ssssid', $clienteV, $fechaV, $tipoV, $productoV, $cantidadV, $totalV);
     $stm -> execute();
     $stm -> close();
     mysqli_close($conex);
