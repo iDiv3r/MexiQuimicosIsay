@@ -41,3 +41,10 @@ body{
     margin-top:5vw;
     position: absolute;
 }
+
+.modal-dialog-end {
+    position: absolute;
+    top: 20px;
+    right: 2vw;
+    margin: 30px;
+}

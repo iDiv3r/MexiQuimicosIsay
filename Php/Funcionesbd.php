@@ -30,11 +30,11 @@ function validarUser($correoV, $passV){
   // Comparar la contraseña con la DB
   if ($passV == $passBD){
     
-    $status = 1; // Tiene acceso
+    $status = $correoV;
 
   } else {
 
-    $status = 0; // No tiene acceso
+    $status = 0; 
 
   }
 
@@ -45,7 +45,7 @@ function validarUser($correoV, $passV){
 // Función para guardar usuarios en la base de datos
 function guardarUsuarios($correoF,$passF){
   $conex = conexiónDB();
-  $insert = "insert into tbusuarios(correo,pass) values(?,?)";
+  $insert = "INSERT into tbusuarios(correo,pass) values(?,?)";
 
   try{
     $stm = $conex -> prepare($insert);
@@ -64,49 +64,34 @@ function guardarUsuarios($correoF,$passF){
 
 }
 
+// Funcion para actualizar usuario
+function actualizarUsuario($correoUp, $pswUp){
 
-function ModificarUsers($correoF, $passF = null, $perfilF = null) {
-  /**
- * Actualiza los datos de un usuario en la base de datos.
- * @param string|null $passF La nueva contraseña del usuario. Si es null, no se actualiza.
- * @param string|null $perfilF El nuevo perfil del usuario. Si es null, no se actualiza.
- * @param string $correoF El correo del usuario a actualizar.
- * @return int El estado de la operación. 1 si se actualizó correctamente, 0 si ocurrió un error.
- */
-  $conex = conexiónDB();
-  $update = "update tbusuarios set";
-  $params = array();
-  if ($passF !== null) {
-      $update .= " pass = ?,";
-      $params[] = $passF;
-  }
+  $conex = conexiónDB(); 
+  $consulta = "UPDATE tbusuarios SET correo = ?, pass = ? WHERE correo = ?";
 
-  if ($perfilF !== null) {
-      $update .= " perfil = ?,";
-      $params[] = $perfilF;
-  }
-  if (!empty($params)) {
-      $update = rtrim($update, ",");
-  } else {
-      mysqli_close($conex);
-      return 0;
-  }
-  $update .= " where correo = ?";
-  $params[] = $correoF;
+  $usuarioAnt = $_COOKIE['usuario'];
+
   try {
-      $stm = $conex->prepare($update);
-      $types = str_repeat('s', count($params));
-      $stm->bind_param($types, ...$params);
-      $stm->execute();
-      $stm->close();
-      mysqli_close($conex);
-      $status = 1;
+  
+    $stm = $conex->prepare($consulta);
+    $stm->bind_param('sss', $correoUp, $pswUp, $usuarioAnt); 
+    $stm->execute();
+    $stm->close();
+    mysqli_close($conex);
+
+    $status = 1;
+    return $status; 
+
   } catch (Exception $e) {
-      $status = 0;
-      echo 'Exception capturada', $e->getMessage();
+
+    echo 'Error al modificar el producto: ' . $e->getMessage();
+
+    $status = 0;
+    return $status;
   }
-  return $status;
 }
+
 
 // CRUD Quimicos ------------------------------------------------------------------------------------------------------------------------------
 
@@ -129,15 +114,16 @@ function consultarQuimicos(){
 }
 
 // Función para guardar quimicos en la base de datos
-function guardarQuimico($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad){
+function guardarQuimico($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad,$medida){
 
   $conex = conexiónDB();
-  $insert = "insert into tbquimicos(nombre, fecha, precio, costomay, costomen, cantidad) values(?,?,?,?,?,?)";
+  $insert = "INSERT into tbquimicos(nombre, fecha, precio, costomay, costomen, cantidad, clase,medida) values(?,?,?,?,?,?,?,?)";
+  $clase = "Quimico";
 
   try{
 
     $stm = $conex -> prepare($insert);
-    $stm -> bind_param('ssdddi', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad);
+    $stm -> bind_param('ssdddiss', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad,$clase,$medida);
     $stm -> execute();
     $stm -> close();
     mysqli_close($conex);
@@ -182,15 +168,15 @@ function eliminarQuimico($idQuimico) {
 }
 
 //Función para modificar Quimico de la base de datos
-function actualizarQuimico($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idQuimicoUp){
+function actualizarQuimico($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idQuimicoUp, $medidaUp){
 
   $conex = conexiónDB(); 
-  $consulta = "UPDATE tbquimicos SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ? WHERE id = ?";
+  $consulta = "UPDATE tbquimicos SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ?, medida = ? WHERE id = ?";
 
   try {
   
     $stm = $conex->prepare($consulta);
-    $stm->bind_param('ssdddii', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idQuimicoUp); 
+    $stm->bind_param('ssdddisi', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp,$medidaUp, $idQuimicoUp); 
     $stm->execute();
     $stm->close();
     mysqli_close($conex);
@@ -255,15 +241,16 @@ function consultarMateriales(){
 }
 
 // Función para guardar materiales en la base de datos
-function guardarMaterial($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad){
+function guardarMaterial($nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad,$medida){
 
   $conex = conexiónDB();
-  $insert = "INSERT into tbmateriales(nombre, fecha, precio, costomay, costomen, cantidad) values(?,?,?,?,?,?)";
+  $insert = "INSERT into tbmateriales(nombre, fecha, precio, costomay, costomen, cantidad, clase, medida) values(?,?,?,?,?,?,?,?)";
+  $clase = "Material";
 
   try{
 
     $stm = $conex -> prepare($insert);
-    $stm -> bind_param('ssdddi', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad);
+    $stm -> bind_param('ssdddiss', $nombreR,$fechaR,$precioR,$costoMay,$costoMen,$cantidad,$clase,$medida);
     $stm -> execute();
     $stm -> close();
     mysqli_close($conex);
@@ -308,15 +295,15 @@ function eliminarMaterial($idMaterial) {
 }
 
 //Función para modificar material de la base de datos
-function actualizarMaterial($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idMaterialUp){
+function actualizarMaterial($nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idMaterialUp, $medidaUp){
 
   $conex = conexiónDB(); 
-  $consulta = "UPDATE tbmateriales SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ? WHERE id = ?";
+  $consulta = "UPDATE tbmateriales SET nombre = ?, fecha = ?, precio = ?, costomay = ?, costomen = ?, cantidad = ?, medida = ? WHERE id = ?";
 
   try {
   
     $stm = $conex->prepare($consulta);
-    $stm->bind_param('ssdddii', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp, $idMaterialUp); 
+    $stm->bind_param('ssdddisi', $nombreUp, $fechaUp, $precioUp, $costoMayUp, $costoMenUp, $cantidadUp,$medidaUp, $idMaterialUp); 
     $stm->execute();
     $stm->close();
     mysqli_close($conex);
@@ -359,7 +346,7 @@ function venderMaterial($restante, $idMaterialV){
 
 }
 
-// CRUD Ventas ------------------------------------------------------------------------------------------------------------------------------
+//  Ventas ------------------------------------------------------------------------------------------------------------------------------
 
 function consultarVentas(){
 
@@ -380,15 +367,15 @@ function consultarVentas(){
 
 }
 
-function guardarVenta($clienteV,$fechaV,$tipoV, $productoV,$cantidadV,$totalV){
+function guardarVenta($clienteV,$fechaV,$tipoV, $productoV,$cantidadV,$totalV,$clase){
 
   $conex = conexiónDB();
-  $insert = "INSERT into tbventas(cliente, fecha, tipo, producto, cantidad, total) values(?,?,?,?,?,?)";
+  $insert = "INSERT into tbventas(cliente, fecha, tipo, producto, cantidad, total,clase) values(?,?,?,?,?,?,?)";
 
   try{
 
     $stm = $conex -> prepare($insert);
-    $stm -> bind_param('ssssid', $clienteV, $fechaV, $tipoV, $productoV, $cantidadV, $totalV);
+    $stm -> bind_param('ssssids', $clienteV, $fechaV, $tipoV, $productoV, $cantidadV, $totalV,$clase);
     $stm -> execute();
     $stm -> close();
     mysqli_close($conex);
@@ -404,4 +391,33 @@ function guardarVenta($clienteV,$fechaV,$tipoV, $productoV,$cantidadV,$totalV){
 
   return $status;
 
+}
+
+// Crear reporte general ------------------------------------------------------------------------------------------------------------------------------
+
+// Función para obtener registros 
+function consultarExistencias(){
+  $conex = conexiónDB();
+  $consultaQuimicos = "SELECT * FROM tbquimicos";
+  $consultaMateriales = "SELECT * FROM tbmateriales";
+
+  try {
+      $rsConsultaQuimicos = mysqli_query($conex, $consultaQuimicos);
+      $rsConsultaMateriales = mysqli_query($conex, $consultaMateriales);
+
+      $resultadosQuimicos = mysqli_fetch_all($rsConsultaQuimicos, MYSQLI_ASSOC);
+      $resultadosMateriales = mysqli_fetch_all($rsConsultaMateriales, MYSQLI_ASSOC);
+
+      mysqli_close($conex);
+
+      $resultados = array(
+          'quimicos' => $resultadosQuimicos,
+          'materiales' => $resultadosMateriales
+      );
+
+      return $resultados;
+
+  } catch(Exception $e){
+      die('Excepcion capturada: ' . $e->getMessage());
+  }
 }

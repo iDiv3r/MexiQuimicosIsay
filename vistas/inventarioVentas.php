@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/inventario.css"> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Consultar Ventas</title>
 </head>
 <body class="UwU">
+
+    <style>
+        .modal-dialog-end {
+            position: absolute;
+            top: 20px;
+            right: 2vw;
+            margin: 30px;
+        }
+    </style>
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -18,9 +28,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
+                    <a class="nav-link" href="../vistas/existencias.php" role="button" >Consultar existencias</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="../vistas/inventarioQuimicos.php" role="button" >Productos Químicos</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item">
                     <a class="nav-link" href="../vistas/inventarioMateriales.php" role="button" >Materiales</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -34,12 +47,35 @@
                     </ul>
                 </li>
             </ul>
-                <button class="bg-body-tertiary border-0 ">
+                <button class="bg-body-tertiary border-0" data-bs-toggle="modal" data-bs-target="#Usuario">
                     <i class="fa-solid fa-user fa-xl"></i>
                 </button>
             </div>
     </div>
     </nav>
+
+    <!-- Modal usuario -->
+    <div class="modal fade" id="Usuario">
+        <div class="modal-dialog modal-dialog-end modal-sm">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title">Usuario &nbsp; &nbsp;</h5>
+                    <i class="fa-solid fa-user fa-xl ml-4"></i>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><?php echo "Correo: " . $_COOKIE['usuario'] ?></li>
+                        <li type="password" class="list-group-item"><?php $pass = $_COOKIE['psw']; $l = strlen($pass); $t = str_repeat("*", $l); echo $t; ?></li>
+                    </ul>
+                    <div class="modal-footer">
+                        <a class="btn btn-danger" href="../vistas/index.php">Cerrar sesión</a>
+                        <a class="btn btn-success" href="../vistas/modifUsuarios.php">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!--Titulo-->
     <h1 class="titulo"> Consultar Ventas </h1>
@@ -49,14 +85,15 @@
         <a class="btn btn-primary mb-3" href="crearReporteVentas.php">Crear reporte de Ventas</a>
         <table class="table" >
             <thead>
-                <tr>
-                    <th scope="col"><?php echo "ID"?></th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Tipo de Venta</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Total</th>
+                <tr style="text-justify:auto;">
+                    <th scope="col"> &nbsp;               Id            &nbsp;                      </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Cliente       &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Fecha         &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Tipo de Venta &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Producto      &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Clase         &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Cantidad      &nbsp; &nbsp; &nbsp; </th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Total         &nbsp; &nbsp; &nbsp; </th>
                     <th scope="col"> </th>
                 </tr>
             </thead>
@@ -74,6 +111,7 @@
                             <td> " . $arregloVentas['fecha'] . " </td>
                             <td> " . $arregloVentas['tipo'] . " </td>
                             <td> " . $arregloVentas['producto'] . " </td>
+                            <td> " . $arregloVentas['clase'] . " </td>
                             <td> " . $arregloVentas['cantidad'] . " </td>
                             <td> " . $arregloVentas['total'] . " </td>
                             <td>

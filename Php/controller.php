@@ -7,10 +7,18 @@ require "funcionesbd.php";
 if (isset($_POST['btnIng'])) {
     $correo = $_POST['txtCorreo'];
     $pass = $_POST['txtPass'];
-    $sta = validarUser($correo,$pass);
-        if ($sta == 1) {
+
+    $usuario = validarUser($correo,$pass); 
+    
+        if ($usuario != 0) {
+            
+            
+            setcookie('usuario', $usuario, time()+ 86400,'/');
+            setcookie('psw', $pass, time()+ 86400, '/');
+
             echo "<script> alert('Bienvenido a MEXQUIMICOS')</script>";
-            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/menuPrincipal.php'>";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/menuPrincipal.php'>";   
+
         } else{
             echo "<script> alert('Error revisa tus credenciales')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/index.php'>";
@@ -49,17 +57,27 @@ if (isset($_POST["btnModificarUser"])) {
     $correo = $_POST['txtCorreo'];
     $pass = $_POST['txtPass'];
     $passC = $_POST['txtCpass'];
-    $perfil = $_POST['selPerfil'];
+
+    $usuarioAnt = $_COOKIE['usuario'];
             
-    $status = ModificarUsers($pass, $perfil, $correo);
+    if($pass == $passC){
+
+        $status = actualizarUsuario($correo, $pass);
             
-    if ($status == 1) {
-        echo "<script> alert('Se guardaron los cambios')</script>"; 
-        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=modifUsuarios.php'>";
-    } else {
-        echo "<script> alert('NO pudo guardar los cambios')</script>";
-        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=modifUsuarios.php'>";
-    }}  
+        if ($status == 1) {
+            echo "<script> alert('Se modificó el usuario correctamente')</script>"; 
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/index.php'>";
+
+        } else {
+            echo "<script> alert('Error al guardar los cambios')</script>";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/modifUsuarios.php'>";
+        }
+
+    } else{
+        echo "<script> alert('Las contraseñas no coinciden')</script>";
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/modifUsuarios.php'>";
+    }
+}  
 
 
 
@@ -74,8 +92,9 @@ if(isset($_POST["btnGuardarQuimico"])) {
     $costoMay = $_POST['txtCostoMayoreoAdd'];    
     $costoMen = $_POST['txtCostoMenudeoAdd'];
     $cantidad = $_POST['txtCantidadAdd'];
+    $medida = $_POST['txtMedidaAdd'];
     
-    $status = guardarQuimico($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad);
+    $status = guardarQuimico($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $medida);
 
     if ($status == 1) {
 
@@ -123,8 +142,9 @@ if(isset($_POST['btnActualizarQuimico'])){
     $costoMay = $_POST['txtCostoMayEdit'];
     $costoMen = $_POST['txtCostoMenEdit'];
     $cantidad = $_POST['txtCantidadEdit'];
+    $medida = $_POST['txtMedidaEdit'];
 
-    $status = actualizarQuimico($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $txtIdQuimico);
+    $status = actualizarQuimico($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $txtIdQuimico,$medida);
 
     if ($status == 1) {
 
@@ -134,7 +154,7 @@ if(isset($_POST['btnActualizarQuimico'])){
     } else {
 
         echo "<script>alert('Error al actualizar el producto');</script>";
-        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/inventarioQuimicos.php'>";
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT='10; URL=../vistas/inventarioQuimicos.php'>";
 
     }
 
@@ -158,13 +178,15 @@ if(isset($_POST['btnVenderQuimico'])){
         $fecha = $_POST['txtFechaVt'];
         $id = $_POST['txtIdQuimico'];
 
+        $clase = "Quimico";
+
         $total = ($tipoVenta == "Mayoreo") ? ($costoMay * $cantidadSol) : ($costoMen * $cantidadSol);
         
 
         if($cantidadSol <= $cantidadDisp){
             $cantidadRestante = ($cantidadDisp - $cantidadSol);
 
-            $status1 = guardarVenta($cliente, $fecha, $tipoVenta, $nombreP, $cantidadSol, $total);
+            $status1 = guardarVenta($cliente, $fecha, $tipoVenta, $nombreP, $cantidadSol, $total,$clase);
             $status2 = venderQuimico($cantidadRestante, $id);
 
             if($status1 == 1){
@@ -209,8 +231,9 @@ if(isset($_POST["btnGuardarMaterial"])) {
     $costoMay = $_POST['txtCostoMayoreoAdd'];    
     $costoMen = $_POST['txtCostoMenudeoAdd'];
     $cantidad = $_POST['txtCantidadAdd'];
+    $medida = $_POST['txtMedidaAdd'];
     
-    $status = guardarMaterial($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad);
+    $status = guardarMaterial($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $medida);
 
     if ($status == 1) {
 
@@ -258,8 +281,9 @@ if(isset($_POST['btnActualizarMaterial'])){
     $costoMay = $_POST['txtCostoMayEdit'];
     $costoMen = $_POST['txtCostoMenEdit'];
     $cantidad = $_POST['txtCantidadEdit'];
+    $medida = $_POST['txtMedidaEdit'];
 
-    $status = actualizarMaterial($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $txtIdMaterial);
+    $status = actualizarMaterial($nombre, $fecha, $precio, $costoMay, $costoMen, $cantidad, $txtIdMaterial, $medida);
 
     if ($status == 1) {
 
@@ -293,13 +317,15 @@ if(isset($_POST['btnVenderMaterial'])){
         $fecha = $_POST['txtFechaVt'];
         $id = $_POST['txtIdMaterial'];
 
+        $clase = "Material";
+
         $total = ($tipoVenta == "Mayoreo") ? ($costoMay * $cantidadSol) : ($costoMen * $cantidadSol);
         
 
         if($cantidadSol <= $cantidadDisp){
             $cantidadRestante = ($cantidadDisp - $cantidadSol);
 
-            $status1 = guardarVenta($cliente, $fecha, $tipoVenta, $nombreP, $cantidadSol, $total);
+            $status1 = guardarVenta($cliente, $fecha, $tipoVenta, $nombreP, $cantidadSol, $total, $clase);
             $status2 = venderMaterial($cantidadRestante, $id);
 
             if($status1 == 1){
@@ -331,4 +357,59 @@ if(isset($_POST['btnVenderMaterial'])){
 
     }
 
+}
+
+// Crear reporte general ------------------------------------------------------------------------------------------------------------------------------
+
+if (isset($_POST['btnCrearReporte'])) {
+    require('../fpdf/fpdf.php');
+
+    $resultados = consultarExistencias();
+    $rutaArchivo = "../reportes/reporte-" . date("Y-m-d_H-i-s") . ".pdf";
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 9);
+
+    $pdf->Cell(0, 10, 'Listado de productos y materiales existentes', 0, 1, 'C');
+    $pdf->Ln();
+
+    $pdf->Cell(10, 10, 'ID' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Nombre' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Fecha' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Precio' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Costo May.' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Costo Men.' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Cantidad' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Clase' , 1, 0, 'C');
+    $pdf->Ln();
+
+    foreach ($resultados['quimicos'] as $quimico) {
+        $pdf->Cell(10, 10, $quimico['id'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $quimico['nombre'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $quimico['fecha'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $quimico['precio'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $quimico['costomay'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $quimico['costomen'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $quimico['cantidad'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $quimico['clase'] , 1, 0, 'C');
+        $pdf->Ln();
+    }
+
+    foreach ($resultados['materiales'] as $material) {
+        $pdf->Cell(10, 10, $material['id'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $material['nombre'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $material['fecha'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $material['precio'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $material['costomay'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $material['costomen'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $material['cantidad'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $material['clase'] , 1, 0, 'C');
+        $pdf->Ln();
+    }
+
+    ob_start(); 
+    $pdf->Output($rutaArchivo , 'F');
+    ob_end_clean();
+    
 }

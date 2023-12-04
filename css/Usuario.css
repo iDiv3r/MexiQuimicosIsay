@@ -132,3 +132,9 @@ body {
   color: black;
 }
 
+.modal-dialog-end {
+  position: absolute;
+  top: 20px;
+  right: 2vw;
+  margin: 30px;
+}
