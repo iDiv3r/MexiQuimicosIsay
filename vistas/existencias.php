@@ -15,12 +15,13 @@
     <h1 class="titulo"> Consultar existencias </h1>
     
     <?php require '../php/controller.php'; ?>
-    
+
     <div class="busqueda">
-        <form class="d-flex" role="search" method="POST">
-            <input class="form-control me-2 =" type="search" placeholder="Escribe lo que desees buscar" aria-label="Search" name="txtBusqueda">
-            <button class="btn btn-success =" type="submit">Buscar</button>
+        <form class="d-flex" role="search" method="POST" action="../php/controller.php">
+            <input class="form-control me-2 =" type="text" placeholder="Escribe lo que desees buscar" aria-label="Search" name="txtBusqueda">
+            <button class="btn btn-success" type="submit" name="btnBuscar">Buscar</button>
             <button type="button" class="btn btn-primary reporteExistencias" data-bs-toggle="modal" data-bs-target="#modalCrearReporte">Reporte</button>
+            <button type="submit" class="btn btn-secondary reporteExistencias" name="btnMostrarTodo">MostrarTodo</button>
         </form>
         
     </div>
@@ -43,13 +44,14 @@
             </thead>
             <tbody>
             <?php
-                // require '../php/funcionesbd.php';
-                $consultaQuimicos = consultarQuimicos();
-                $consultaMateriales = consultarMateriales();
+                
+                if($_COOKIE['busqueda'] != 0){
 
-                while($arregloQuimicos = mysqli_fetch_array($consultaQuimicos)){
-                    
-                    if(($arregloQuimicos['cantidad']) <= 3){
+                    $resultadoBusq = $_COOKIE['busqueda'];
+
+                    $resultado = unserialize($resultadoBusq);
+
+                    if(($resultado['cantidad']) <= 3){
                         $color = 'class="text-danger"';
                     } else{
                         $color = "";
@@ -57,43 +59,76 @@
 
                     echo ("
                     <tr>
-                        <th> " . $arregloQuimicos['id'] . " </th>
-                        <td> " . $arregloQuimicos['nombre'] . " </td>
-                        <td> " . $arregloQuimicos['fecha'] . " </td>
-                        <td> " . $arregloQuimicos['precio'] . " </td>
-                        <td> " . $arregloQuimicos['costomay'] . " </td>
-                        <td> " . $arregloQuimicos['costomen'] . " </td>
-                        <td " . $color . "> " . $arregloQuimicos['cantidad'] . " </td>
-                        <td> " . $arregloQuimicos['clase'] . " </td>
-                        <td> " . $arregloQuimicos['medida'] . " </td>
+                        <th> " . $resultado['id'] . " </th>
+                        <td> " . $resultado['nombre'] . " </td>
+                        <td> " . $resultado['fecha'] . " </td>
+                        <td> " . $resultado['precio'] . " </td>
+                        <td> " . $resultado['costomay'] . " </td>
+                        <td> " . $resultado['costomen'] . " </td>
+                        <td " . $color . "> " . $resultado['cantidad'] . " </td>
+                        <td> " . $resultado['clase'] . " </td>
+                        <td> " . $resultado['medida'] . " </td>
                     </tr>
 
                     ");
-                }
-
-                while($arregloMateriales = mysqli_fetch_array($consultaMateriales)){
                     
-                    if(($arregloMateriales['cantidad']) <= 3){
-                        $color = 'style="color:red"';
-                    } else{
-                        $color = "";
+
+                } else {
+
+
+                    $consultaQuimicos = consultarQuimicos();
+                    $consultaMateriales = consultarMateriales();
+
+                    while($arregloQuimicos = mysqli_fetch_array($consultaQuimicos)){
+                        
+                        if(($arregloQuimicos['cantidad']) <= 3){
+                            $color = 'class="text-danger"';
+                        } else{
+                            $color = "";
+                        }
+
+                        echo ("
+                        <tr>
+                            <th> " . $arregloQuimicos['id'] . " </th>
+                            <td> " . $arregloQuimicos['nombre'] . " </td>
+                            <td> " . $arregloQuimicos['fecha'] . " </td>
+                            <td> " . $arregloQuimicos['precio'] . " </td>
+                            <td> " . $arregloQuimicos['costomay'] . " </td>
+                            <td> " . $arregloQuimicos['costomen'] . " </td>
+                            <td " . $color . "> " . $arregloQuimicos['cantidad'] . " </td>
+                            <td> " . $arregloQuimicos['clase'] . " </td>
+                            <td> " . $arregloQuimicos['medida'] . " </td>
+                        </tr>
+
+                        ");
+
+                        
                     }
 
-                    echo ("
-                    <tr>
-                        <th> " . $arregloMateriales['id'] . " </th>
-                        <td> " . $arregloMateriales['nombre'] . " </td>
-                        <td> " . $arregloMateriales['fecha'] . " </td>
-                        <td> " . $arregloMateriales['precio'] . " </td>
-                        <td> " . $arregloMateriales['costomay'] . " </td>
-                        <td> " . $arregloMateriales['costomen'] . " </td>
-                        <td " . $color . "> " . $arregloMateriales['cantidad'] . " </td>
-                        <td> " . $arregloMateriales['clase'] . " </td>
-                        <td> " . $arregloMateriales['medida'] . " </td>
-                    </tr>
+                    while($arregloMateriales = mysqli_fetch_array($consultaMateriales)){
+                        
+                        if(($arregloMateriales['cantidad']) <= 3){
+                            $color = 'style="color:red"';
+                        } else{
+                            $color = "";
+                        }
 
-                    ");
-                };
+                        echo ("
+                        <tr>
+                            <th> " . $arregloMateriales['id'] . " </th>
+                            <td> " . $arregloMateriales['nombre'] . " </td>
+                            <td> " . $arregloMateriales['fecha'] . " </td>
+                            <td> " . $arregloMateriales['precio'] . " </td>
+                            <td> " . $arregloMateriales['costomay'] . " </td>
+                            <td> " . $arregloMateriales['costomen'] . " </td>
+                            <td " . $color . "> " . $arregloMateriales['cantidad'] . " </td>
+                            <td> " . $arregloMateriales['clase'] . " </td>
+                            <td> " . $arregloMateriales['medida'] . " </td>
+                        </tr>
+
+                        ");
+                    };
+                }
             ?>
             </tbody>
         </table>

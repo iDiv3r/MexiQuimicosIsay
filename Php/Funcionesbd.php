@@ -423,3 +423,48 @@ function consultarExistencias(){
 
 // Realizar búsqueda por nombre ------------------------------------------------------------------------------------------------------------------------------
 
+function buscarQuimico($nombreB){
+
+  $conex = conexiónDB();
+  $consulta = "SELECT * FROM tbquimicos WHERE nombre = '$nombreB' ";
+
+  $rset = mysqli_query($conex, $consulta);
+
+  mysqli_close($conex);
+
+  $quimico = mysqli_fetch_array($rset);
+
+  if ($quimico != 0){
+
+  } else {
+
+    $quimico = 0; 
+
+  }
+
+  return $quimico;
+
+}
+
+function buscarMaterial($nombreB){
+
+  $conex = conexiónDB();
+  $consulta = "SELECT * FROM tbmateriales WHERE nombre = '$nombreB' ";
+
+  $rset = mysqli_query($conex, $consulta);
+
+  mysqli_close($conex);
+
+  $material = mysqli_fetch_array($rset);
+
+  if ($material != 0){
+
+  } else {
+
+    $material = 0; 
+
+  }
+
+  return $material;
+
+}

@@ -48,7 +48,7 @@
                             <td> " . $arregloVentas['tipo'] . " </td>
                             <td> " . $arregloVentas['producto'] . " </td>
                             <td> " . $arregloVentas['clase'] . " </td>
-                            <td> " . $arregloVentas['cantidad'] ."' </td>
+                            <td> " . $arregloVentas['cantidad'] ." </td>
                             <td> " . $arregloVentas['total'] . " </td>
                             <td>
                                 <a class='btn btn-info' href='#' data-bs-toggle='modal' data-bs-target='#Ticket". $arregloVentas['id']  . "'>Crear Ticket</a>

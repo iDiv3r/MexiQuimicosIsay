@@ -58,16 +58,11 @@
     <div class="contenedor mt-5">
         <div class="d-flex j align-items-center">
             <h4 style="margin-right:3vw; margin-left:2vw;">Ventas</h4>
-            <div class="card text-center border-warning" style="width: 8rem; margin-left:10vw ">
+            <div class="card text-center border-warning" style="width: 8rem; margin-left:23.5vw ">
                 <div class="card-body">
                     <a class="btn btn-warning" href="../vistas/inventarioVentas.php">Consultar</a>
                 </div>
             </div> 
-            <div class="card text-center border-warning" style="width: 10rem; margin-left:3vw">
-                <div class="card-body">
-                    <a class="btn btn-warning" href="../vistas/crearReporteVentas.php">Crear reporte</a>
-                </div>
-            </div>
         </div>
     </div>
 

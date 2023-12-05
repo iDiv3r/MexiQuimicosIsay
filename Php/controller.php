@@ -499,4 +499,47 @@ function crearReporteVentas() {
 
 // Crear Realizar búsqueda por nombre ------------------------------------------------------------------------------------------------------------------------------
 
+if(isset($_POST['btnBuscar'])){
+    
+    $nombreB = $_POST['txtBusqueda'];
+
+    $busqQuim = buscarQuimico($nombreB);
+
+    if($busqQuim != 0){
+
+        $busqSer = serialize($busqQuim);
+
+        setcookie('busqueda', $busqSer, time()+ 3600, '/');
+
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/existencias.php'>";
+
+    } else {
+
+        $busqQuim = buscarMaterial($nombreB);
+
+        if($busqQuim != 0){
+
+            $busqSer = serialize($busqQuim);
+
+            setcookie('busqueda', $busqSer, time()+ 3600, '/');
+    
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/existencias.php'>";
+
+        } else{
+
+            setcookie('busqueda', 0 , time()+ 3600, '/');
+
+            echo "<script>alert('No existen registros con ese nombre');</script>";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/existencias.php'>";
+        }
+    }
+
+}   
+
+if(isset($_POST['btnMostrarTodo'])){
+
+    setcookie('busqueda', 0 , time()+ 3600, '/');
+    
+    echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../vistas/existencias.php'>";
+}
 

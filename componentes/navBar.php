@@ -24,15 +24,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../vistas/inventarioMateriales.php" role="button" >Materiales</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ventas
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../vistas/inventarioVentas.php">Guardar y consultar</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearReporteVentas.php">Crear reporte de ventas</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearTicket.php">Crear ticket de venta</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="../vistas/inventarioVentas.php">Ventas</a>
                 </li>
             </ul>
                 <button class="bg-body-tertiary border-0" data-bs-toggle="modal" data-bs-target="#Usuario">
