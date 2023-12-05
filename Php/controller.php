@@ -361,11 +361,12 @@ if(isset($_POST['btnVenderMaterial'])){
 
 // Crear reporte general ------------------------------------------------------------------------------------------------------------------------------
 
-if (isset($_POST['btnCrearReporte'])) {
+function crearReporteGeneral() {
+
     require('../fpdf/fpdf.php');
 
     $resultados = consultarExistencias();
-    $rutaArchivo = "../reportes/reporte-" . date("Y-m-d_H-i-s") . ".pdf";
+    $rutaArchivo = "../reportesGenerales/reporteGeneral-" . date("Y-m-d_H-i-s") . ".pdf";
 
     $pdf = new FPDF();
     $pdf->AddPage();
@@ -408,8 +409,94 @@ if (isset($_POST['btnCrearReporte'])) {
         $pdf->Ln();
     }
 
-    ob_start(); 
     $pdf->Output($rutaArchivo , 'F');
-    ob_end_clean();
     
+    return $rutaArchivo;
 }
+
+
+// Crear ticket ------------------------------------------------------------------------------------------------------------------------------
+function crearTicket($id, $cliente, $fecha, $tipo, $producto, $clase, $cantidad, $total, $usuario){
+
+    $rutaTicket = "../tickets/ticket-" . $cliente . "_". date("Y-m-d_H-i-s") . ".pdf";
+
+    $pdf = new FPDF();
+    $pdf->AddPage('P', [100, 150]);
+    $pdf->SetFont('Arial', 'B', 12);
+
+    $pdf->Cell(0, 10, 'Ticket de Compra', 0, 1, 'C');
+    $pdf->Ln();
+
+    
+    $pdf->Cell(50, 10, 'ID:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $id, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Cliente:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $cliente, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Fecha:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $fecha, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Tipo:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $tipo, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Producto:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $producto, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Clase:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $clase, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Cantidad:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $cantidad, 0, 1, 'L');
+    $pdf->Cell(50, 10, 'Total:', 0, 0, 'L');
+    $pdf->Cell(140, 10, '$' . number_format($total, 2), 0, 1, 'L');
+    $pdf->Ln(2);
+    $pdf->Cell(30, 10, 'Atendido por:', 0, 0, 'L');
+    $pdf->Cell(140, 10, $usuario, 0, 1, 'L');
+    
+    $pdf->Output($rutaTicket , 'F');
+
+    return $rutaTicket;
+}
+
+// Crear Reporte Ventas ------------------------------------------------------------------------------------------------------------------------------
+
+function crearReporteVentas() {
+
+    $resultados = consultarVentas();
+    $rutaArchivo = "../reportesVentas/reporteVentas-" . date("Y-m-d_H-i-s") . ".pdf";
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 9);
+
+    $pdf->Cell(0, 10, 'Reporte de Ventas', 0, 1, 'C');
+    $pdf->Ln();
+    $pdf->Cell(15, 10, 'Fecha:', 0, 0, 'L');
+    $pdf->Cell(10, 10, date("Y-m-d"), 0, 1, 'L');
+    $pdf->Ln(2);
+
+    $pdf->Cell(10, 10, 'ID' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Cliente' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Fecha' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Tipo' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Producto' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Clase' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Cantidad' , 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Total' , 1, 0, 'C');
+    $pdf->Ln();
+
+    foreach ($resultados as $venta) {
+        $pdf->Cell(10, 10, $venta['id'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $venta['cliente'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $venta['fecha'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $venta['tipo'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $venta['producto'] , 1, 0, 'C');
+        $pdf->Cell(25, 10,  $venta['clase'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $venta['cantidad'] , 1, 0, 'C');
+        $pdf->Cell(25, 10, $venta['total'] , 1, 0, 'C');
+        $pdf->Ln();
+    }
+
+    $pdf->Output($rutaArchivo , 'F');
+    
+    return $rutaArchivo;
+}
+
+// Crear Realizar búsqueda por nombre ------------------------------------------------------------------------------------------------------------------------------
+
+

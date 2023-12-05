@@ -10,79 +10,16 @@
 </head>
 <body class="UwU">
 
-    <style>
-        .modal-dialog-end {
-            position: absolute;
-            top: 20px;
-            right: 2vw;
-            margin: 30px;
-        }
-    </style>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="../vistas/menuPrincipal.php">MexiQuímicos</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/existencias.php" role="button" >Consultar existencias</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/inventarioQuimicos.php" role="button" >Productos Químicos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/inventarioMateriales.php" role="button" >Materiales</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ventas
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../vistas/inventarioVentas.php">Guardar y consultar</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearReporteVentas.php">Crear reporte de ventas</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearTicket.php">Crear ticket de venta</a></li>
-                    </ul>
-                </li>
-            </ul>
-                <button class="bg-body-tertiary border-0" data-bs-toggle="modal" data-bs-target="#Usuario">
-                    <i class="fa-solid fa-user fa-xl"></i>
-                </button>
-            </div>
-    </div>
-    </nav>
-
-    <!-- Modal usuario -->
-    <div class="modal fade" id="Usuario">
-        <div class="modal-dialog modal-dialog-end modal-sm">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title">Usuario &nbsp; &nbsp;</h5>
-                    <i class="fa-solid fa-user fa-xl ml-4"></i>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li class="list-group-item"><?php echo "Correo: " . $_COOKIE['usuario'] ?></li>
-                        <li type="password" class="list-group-item"><?php $pass = $_COOKIE['psw']; $l = strlen($pass); $t = str_repeat("*", $l); echo $t; ?></li>
-                    </ul>
-                    <div class="modal-footer">
-                        <a class="btn btn-danger" href="../vistas/index.php">Cerrar sesión</a>
-                        <a class="btn btn-success" href="../vistas/modifUsuarios.php">Editar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php require('../componentes/navBar.php'); ?>
+    <?php require('../php/controller.php'); ?>
+    <?php require('../fpdf/fpdf.php'); ?>
     
     <!--Titulo-->
     <h1 class="titulo"> Consultar Ventas </h1>
 
     <!--contenedor de la tabla-->
     <div style="position: absolute; left:15vw; top:15vw;">
-        <a class="btn btn-primary mb-3" href="crearReporteVentas.php">Crear reporte de Ventas</a>
+        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#modalCrearReporteVentas">Crear reporte de Ventas</button>
         <table class="table" >
             <thead>
                 <tr style="text-justify:auto;">
@@ -99,7 +36,6 @@
             </thead>
             <tbody>
                 <?php
-                    require '../php/funcionesbd.php';
                     $consultaVentas = consultarVentas();
 
                     while($arregloVentas= mysqli_fetch_array($consultaVentas)){
@@ -112,20 +48,61 @@
                             <td> " . $arregloVentas['tipo'] . " </td>
                             <td> " . $arregloVentas['producto'] . " </td>
                             <td> " . $arregloVentas['clase'] . " </td>
-                            <td> " . $arregloVentas['cantidad'] . " </td>
+                            <td> " . $arregloVentas['cantidad'] ."' </td>
                             <td> " . $arregloVentas['total'] . " </td>
                             <td>
-                                <button class='btn btn-dark'>Crear Ticket</button>
+                                <a class='btn btn-info' href='#' data-bs-toggle='modal' data-bs-target='#Ticket". $arregloVentas['id']  . "'>Crear Ticket</a>
                             </td>
                         </tr>
-
                         ");
-                    };
+                    }
                 ?>
-                
             </tbody>
-                </table>
-                
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-            </body>
-            </html>
+        </table>
+    </div>
+
+    <?php
+
+        $consultaVentas2 = consultarVentas();
+        while($arregloVentas2 = mysqli_fetch_array($consultaVentas2)){
+
+            require('../componentes/modalTicket.php'); 
+
+        };
+    ?>
+
+    <!-- Modal Reporte Ventas -->
+    <div class="modal fade" id="modalCrearReporteVentas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Vista previa</h1>
+            </div>
+            <div class="modal-body">
+
+            <?php 
+            
+            $ruta = crearReporteVentas();
+            
+            echo '
+            <object 
+                type="application/pdf"
+                data=" ' .$ruta . '"
+                width="765"
+                height="893"
+                style""
+            ></object>
+            ';
+
+            ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -395,7 +395,6 @@ function guardarVenta($clienteV,$fechaV,$tipoV, $productoV,$cantidadV,$totalV,$c
 
 // Crear reporte general ------------------------------------------------------------------------------------------------------------------------------
 
-// Función para obtener registros 
 function consultarExistencias(){
   $conex = conexiónDB();
   $consultaQuimicos = "SELECT * FROM tbquimicos";
@@ -421,3 +420,6 @@ function consultarExistencias(){
       die('Excepcion capturada: ' . $e->getMessage());
   }
 }
+
+// Realizar búsqueda por nombre ------------------------------------------------------------------------------------------------------------------------------
+

@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    <style>
+        .modal-dialog-end {
+            position: absolute;
+            top: 6vw;
+            right: 2vw;
+            margin: 30px;
+        }
+    </style>
 
     <h1 class="text-center mt-5 mb-5" style="color:black">MEXQUÍMICOS</h1>
     
@@ -18,7 +26,8 @@
         <?php echo "Bienvenido a MEXQUÍMICOS " . $_COOKIE['usuario']?>
     </h3>
     
-    <i class="fa-regular fa-circle-user fa-2xl"  role="button" style="position:absolute; right:10vw; top:7vw;"></i>  
+
+    <i class="fa-regular fa-circle-user fa-2xl" data-bs-toggle="modal" data-bs-target="#Usuario" role="button" style="position:absolute; right:10vw; top:7vw;"></i>  
 
     <!-- Tarjetas Productos Quimicos -->
     <div class="contenedor">
@@ -49,25 +58,43 @@
     <div class="contenedor mt-5">
         <div class="d-flex j align-items-center">
             <h4 style="margin-right:3vw; margin-left:2vw;">Ventas</h4>
-            <div class="card text-center border-warning" style="width: 8rem; margin-left:1vw ">
+            <div class="card text-center border-warning" style="width: 8rem; margin-left:10vw ">
                 <div class="card-body">
                     <a class="btn btn-warning" href="../vistas/inventarioVentas.php">Consultar</a>
                 </div>
             </div> 
-            <div class="card text-center border-warning" style="width: 10rem; margin-left:1vw">
+            <div class="card text-center border-warning" style="width: 10rem; margin-left:3vw">
                 <div class="card-body">
                     <a class="btn btn-warning" href="../vistas/crearReporteVentas.php">Crear reporte</a>
-                </div>
-            </div>
-            <div class="card text-center border-warning" style="width: 9rem; margin-left:1vw">
-                <div class="card-body">
-                    <a class="btn btn-warning" href="../vistas/crearTicket.php">Crear ticket</a>
                 </div>
             </div>
         </div>
     </div>
 
     <p></p>
+
+    <!-- Modal usuario -->
+    <div class="modal fade" id="Usuario">
+        <div class="modal-dialog modal-dialog-end modal-sm">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title">Usuario &nbsp; &nbsp;</h5>
+                    <i class="fa-solid fa-user fa-xl ml-4"></i>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><?php echo "Correo: " . $_COOKIE['usuario'] ?></li>
+                        <li type="password" class="list-group-item"><?php $pass = $_COOKIE['psw']; $l = strlen($pass); $t = str_repeat("*", $l); echo $t; ?></li>
+                    </ul>
+                    <div class="modal-footer">
+                        <a class="btn btn-danger" href="../vistas/index.php">Cerrar sesión</a>
+                        <a class="btn btn-success" href="../vistas/modifUsuarios.php">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

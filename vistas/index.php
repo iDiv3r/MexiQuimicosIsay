@@ -20,7 +20,7 @@
                         <button type="submit" title="Ingresar" name="btnIng">Login</button>
                     </form>
                     <div class="pie-form">
-                        <a href="#">¿Perdiste tu contraseña?</a>
+                        <a href="../vistas/registrarUsuarios.php">¿No tienes cuenta?, Registrate</a>
                     </div>
                 </div>
             </div>

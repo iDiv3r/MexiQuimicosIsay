@@ -9,86 +9,20 @@
     <title>Consultar Existencias</title>
 </head>
 <body class="UwU">
-    <style>
-        .modal-dialog-end {
-            position: absolute;
-            top: 20px;
-            right: 2vw;
-            margin: 30px;
-        }
-    </style>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="../vistas/menuPrincipal.php">MexiQuímicos</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/existencias.php" role="button" >Consultar existencias</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/inventarioQuimicos.php" role="button" >Productos Químicos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../vistas/inventarioMateriales.php" role="button" >Materiales</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ventas
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../vistas/inventarioVentas.php">Guardar y consultar</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearReporteVentas.php">Crear reporte de ventas</a></li>
-                        <li><a class="dropdown-item" href="../vistas/crearTicket.php">Crear ticket de venta</a></li>
-                    </ul>
-                </li>
-            </ul>
-                <button class="bg-body-tertiary border-0" data-bs-toggle="modal" data-bs-target="#Usuario">
-                    <i class="fa-solid fa-user fa-xl"></i>
-                </button>
-            </div>
-    </div>
-    </nav>
-
-    <!-- Modal usuario -->
-    <div class="modal fade" id="Usuario">
-        <div class="modal-dialog modal-dialog-end modal-sm">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title">Usuario &nbsp; &nbsp;</h5>
-                    <i class="fa-solid fa-user fa-xl ml-4"></i>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li class="list-group-item"><?php echo "Correo: " . $_COOKIE['usuario'] ?></li>
-                        <li type="password" class="list-group-item"><?php $pass = $_COOKIE['psw']; $l = strlen($pass); $t = str_repeat("*", $l); echo $t; ?></li>
-                    </ul>
-                    <div class="modal-footer">
-                        <a class="btn btn-danger" href="../vistas/index.php">Cerrar sesión</a>
-                        <a class="btn btn-success" href="../vistas/modifUsuarios.php">Editar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php require('../componentes/navBar.php'); ?>
     
-    <!--Titulo-->
     <h1 class="titulo"> Consultar existencias </h1>
     
-    <?php 
-        require '../php/controller.php';
-    ?>
+    <?php require '../php/controller.php'; ?>
     
     <div class="busqueda">
         <form class="d-flex" role="search" method="POST">
             <input class="form-control me-2 =" type="search" placeholder="Escribe lo que desees buscar" aria-label="Search" name="txtBusqueda">
             <button class="btn btn-success =" type="submit">Buscar</button>
-            <button class="btn btn-primary reporteExistencias" type="submit" name="btnCrearReporte">Reporte</button>
+            <button type="button" class="btn btn-primary reporteExistencias" data-bs-toggle="modal" data-bs-target="#modalCrearReporte">Reporte</button>
         </form>
+        
     </div>
         
     <!--contenedor de la tabla-->
@@ -98,7 +32,7 @@
                 <tr>
                     <th scope="col"> &nbsp; Id &nbsp;</t h>
                     <th scope="col"> &nbsp; Nombre &nbsp;</t h>
-                    <th scope="col"> &nbsp; &nbsp; &nbsp; Fecha &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
+                    <th scope="col"> &nbsp; &nbsp; &nbsp; Fecha &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp</th>
                     <th scope="col"> &nbsp; Precio de compra &nbsp;</t h>
                     <th scope="col"> &nbsp; Costo V. mayoreo &nbsp;</t h>
                     <th scope="col"> &nbsp; Costo V. menudeo &nbsp;</t h>
@@ -164,7 +98,39 @@
             </tbody>
         </table>
 
-    </div>    
+    </div> 
+
+    <!-- Modal Reporte -->
+    <div class="modal fade" id="modalCrearReporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Vista previa</h1>
+            </div>
+            <div class="modal-body">
+
+            <?php 
+            
+            $ruta = crearReporteGeneral();
+            
+            echo '
+            <object 
+                type="application/pdf"
+                data=" ' .$ruta . '"
+                width="765"
+                height="893"
+                style""
+            ></object>
+            ';
+
+            ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
